@@ -1,9 +1,11 @@
+import java.sql.SQLException;
 import java.util.Scanner;
 
 
 public class LoginManager {
     private DatabaseManager dbManager;
     private static final int MAX_ATTEMPTS = 3;
+    
 
     public LoginManager(DatabaseManager dbManager){
         this.dbManager = dbManager;
@@ -12,6 +14,11 @@ public class LoginManager {
     public boolean login (String username, String password){
         return dbManager.authenticateUser(username, password);
     }
+
+    public boolean uTest(String username){
+        return dbManager.authU(username);
+    }
+
 
 
     public void startLoginProccess(){
@@ -56,6 +63,36 @@ public class LoginManager {
         dbManager.addUser(username, password);
 
     }
+
+    public void updateUserCred(){
+        DatabaseManager dbManager = new DatabaseManager();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter username to search: ");
+        String userf = scanner.nextLine();
+        
+        if(uTest(userf)){
+        System.out.println("User found. Enter New password to update: ");
+        String passf = scanner.nextLine();
+        dbManager.updateUser(userf, passf);
+        }else{
+            System.out.println("No user found!");
+        }
+
+        
+    }
+
+    public void deleteUser(){
+        DatabaseManager dbManager = new DatabaseManager();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter username to delete: ");
+        String userf = scanner.nextLine();
+
+        dbManager.deleteUser(userf);
+
+    }
+
 
 
 }
